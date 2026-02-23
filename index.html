@@ -1,78 +1,146 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="th">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Installing Cost Calculator...</title>
+    <title>🍎 IPA SHIT INSTALLER</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body {
-            font-family: -apple-system, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f2f2f7;
-            text-align: center;
-        }
-        .spinner {
-            border: 4px solid rgba(0, 0, 0, 0.1);
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            border-left-color: #007AFF;
-            animation: spin 1s linear infinite;
-            margin-bottom: 20px;
-        }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        h2 { font-size: 20px; margin: 0; color: #1c1c1e; }
-        p { color: #8e8e93; font-size: 14px; padding: 0 20px; }
+        body { font-family: system-ui; }
+        .glow { text-shadow: 0 0 20px #ff00ff; }
     </style>
 </head>
-<body>
+<body class="bg-black text-white min-h-screen">
+    <div class="max-w-2xl mx-auto p-8">
+        <h1 class="text-6xl font-bold text-center mb-2 glow">🍎 IPA INSTALLER</h1>
+        <p class="text-center text-pink-500 text-xl mb-10">Sideloading แบบไม่ต้อง jailbreak - กูทำให้มึงแล้วไอ้สัส</p>
 
-    <div class="spinner"></div>
-    <h2 id="msg">Downloading Profile...</h2>
-    <p>You will be redirected back to GitHub automatically.</p>
+        <div class="bg-zinc-900 rounded-3xl p-8 shadow-2xl">
+            <div class="space-y-6">
+                <div>
+                    <label class="block text-sm text-gray-400 mb-2">📱 ชื่อแอพ</label>
+                    <input id="name" type="text" placeholder="Spotify Cracked" 
+                           class="w-full bg-zinc-800 border border-pink-500 rounded-xl px-5 py-4 text-lg focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-sm text-gray-400 mb-2">🔑 Bundle ID</label>
+                    <input id="bundle" type="text" placeholder="com.spotify.client" 
+                           class="w-full bg-zinc-800 border border-pink-500 rounded-xl px-5 py-4 text-lg focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-sm text-gray-400 mb-2">📦 เวอร์ชั่น</label>
+                    <input id="version" type="text" placeholder="8.9.12" value="1.0"
+                           class="w-full bg-zinc-800 border border-pink-500 rounded-xl px-5 py-4 text-lg focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-sm text-gray-400 mb-2">🔗 ลิงก์ IPA (ต้องเป็น HTTPS Direct Link)</label>
+                    <input id="ipaurl" type="text" placeholder="https://yourhost.com/spotify.ipa" 
+                           class="w-full bg-zinc-800 border border-pink-500 rounded-xl px-5 py-4 text-lg focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-sm text-gray-400 mb-2">🖼️ ลิงก์ไอคอน (512x512 PNG)</label>
+                    <input id="iconurl" type="text" placeholder="https://yourhost.com/icon.png" 
+                           class="w-full bg-zinc-800 border border-pink-500 rounded-xl px-5 py-4 text-lg focus:outline-none">
+                </div>
+            </div>
+
+            <button onclick="generateManifest()" 
+                    class="mt-10 w-full bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-2xl font-bold py-6 rounded-2xl transition-all active:scale-95">
+                🔥 GENERATE MANIFEST.PLIST 🔥
+            </button>
+        </div>
+
+        <div id="result" class="mt-8 hidden bg-zinc-900 rounded-3xl p-6">
+            <p class="text-green-400 font-bold mb-3">✅ Manifest พร้อมแล้ว! โหลดไฟล์ไปโฮสต์เลยไอ้สัส</p>
+            <textarea id="plistcode" class="w-full h-64 bg-black text-green-300 p-4 rounded-xl font-mono text-sm"></textarea>
+        </div>
+
+        <div class="mt-12 text-center text-gray-500 text-sm">
+            วิธีใช้แบบโคตรง่าย:<br>
+            1. กรอกข้อมูล → กดปุ่ม<br>
+            2. โหลด manifest.plist ไปอัพโหลดที่เดียวกับ IPA<br>
+            3. เอา URL ของ manifest มาใส่ในลิงก์ด้านล่าง<br>
+            4. กดติดตั้งบน iPhone Safari → Settings → General → VPN & Device Management → Trust
+        </div>
+    </div>
 
     <script>
-        const rawUrl = "https://raw.githubusercontent.com/jn5ncjzj7j-byte/Cost-Calculator/refs/heads/main/Webapp/ios.mobileconfig";
-        const githubRepo = "https://github.com/jn5ncjzj7j-byte/Cost-Calculator";
+        function generateManifest() {
+            const name = document.getElementById('name').value || 'My Cracked App';
+            const bundle = document.getElementById('bundle').value || 'com.example.app';
+            const version = document.getElementById('version').value || '1.0';
+            const ipaurl = document.getElementById('ipaurl').value;
+            const iconurl = document.getElementById('iconurl').value;
 
-        window.onload = function() {
-            // Step 1: Fetch the profile
-            fetch(rawUrl)
-                .then(response => response.text())
-                .then(xmlData => {
-                    const blob = new Blob([xmlData], { type: 'application/x-apple-aspen-config' });
-                    const url = window.URL.createObjectURL(blob);
-                    
-                    const link = document.createElement('a');
-                    link.href = url;
-                    link.download = 'cost_calculator.mobileconfig';
-                    document.body.appendChild(link);
-                    
-                    // Step 2: Trigger the download
-                    link.click();
+            if (!ipaurl) {
+                alert('ไอ้เหี้ย ใส่ลิงก์ IPA ด้วย!');
+                return;
+            }
 
-                    // Step 3: Handle the redirect
-                    // We use a shorter delay for the first attempt, 
-                    // and a backup 'focus' listener in case the popup freezes the page.
-                    setTimeout(() => {
-                        window.location.replace(githubRepo);
-                    }, 1500);
+            let assets = `
+                <dict>
+                    <key>kind</key>
+                    <string>software-package</string>
+                    <key>url</key>
+                    <string>${ipaurl}</string>
+                </dict>`;
+            
+            if (iconurl) {
+                assets += `
+                <dict>
+                    <key>kind</key>
+                    <string>display-image</string>
+                    <key>needs-shine</key>
+                    <false/>
+                    <key>url</key>
+                    <string>${iconurl}</string>
+                </dict>`;
+            }
 
-                    // Backup: Redirect when the user comes back to the tab after hitting 'Allow'
-                    window.onfocus = function() {
-                        window.location.replace(githubRepo);
-                    };
-                })
-                .catch(err => {
-                    // Fallback if fetch fails
-                    window.location.replace(githubRepo);
-                });
-        };
+            const plist = `<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>items</key>
+    <array>
+        <dict>
+            <key>assets</key>
+            <array>${assets}
+            </array>
+            <key>metadata</key>
+            <dict>
+                <key>bundle-identifier</key>
+                <string>${bundle}</string>
+                <key>bundle-version</key>
+                <string>${version}</string>
+                <key>kind</key>
+                <string>software</string>
+                <key>title</key>
+                <string>${name}</string>
+            </dict>
+        </dict>
+    </array>
+</dict>
+</plist>`;
+
+            // แสดงผล
+            document.getElementById('result').classList.remove('hidden');
+            document.getElementById('plistcode').value = plist;
+
+            // ดาวน์โหลดอัตโนมัติ
+            const blob = new Blob([plist], { type: 'text/xml' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = name.replace(/[^a-zA-Z0-9]/g, '_') + '_manifest.plist';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // Tailwind script ทำงาน
+        document.documentElement.style.setProperty('--tw-ring-color', '#ec4899');
     </script>
 </body>
 </html>
