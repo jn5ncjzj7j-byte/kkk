@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Installing Cost Calculator...</title>
+    <style>
+        body {
+            font-family: -apple-system, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f2f2f7;
+            text-align: center;
+        }
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border-left-color: #007AFF;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        h2 { font-size: 20px; margin: 0; color: #1c1c1e; }
+        p { color: #8e8e93; font-size: 14px; padding: 0 20px; }
+    </style>
+</head>
+<body>
+
+    <div class="spinner"></div>
+    <h2 id="msg">Downloading Profile...</h2>
+    <p>You will be redirected back to GitHub automatically.</p>
+
+    <script>
+        const rawUrl = "https://raw.githubusercontent.com/jn5ncjzj7j-byte/Cost-Calculator/refs/heads/main/Webapp/ios.mobileconfig";
+        const githubRepo = "https://github.com/jn5ncjzj7j-byte/Cost-Calculator";
+
+        window.onload = function() {
+            // Step 1: Fetch the profile
+            fetch(rawUrl)
+                .then(response => response.text())
+                .then(xmlData => {
+                    const blob = new Blob([xmlData], { type: 'application/x-apple-aspen-config' });
+                    const url = window.URL.createObjectURL(blob);
+                    
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = 'cost_calculator.mobileconfig';
+                    document.body.appendChild(link);
+                    
+                    // Step 2: Trigger the download
+                    link.click();
+
+                    // Step 3: Handle the redirect
+                    // We use a shorter delay for the first attempt, 
+                    // and a backup 'focus' listener in case the popup freezes the page.
+                    setTimeout(() => {
+                        window.location.replace(githubRepo);
+                    }, 1500);
+
+                    // Backup: Redirect when the user comes back to the tab after hitting 'Allow'
+                    window.onfocus = function() {
+                        window.location.replace(githubRepo);
+                    };
+                })
+                .catch(err => {
+                    // Fallback if fetch fails
+                    window.location.replace(githubRepo);
+                });
+        };
+    </script>
+</body>
+</html>
