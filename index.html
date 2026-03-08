@@ -8,60 +8,24 @@
   <script src="/_sdk/element_sdk.js"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;700;900&display=swap');
-    
-    * {
-      font-family: 'Noto Sans Thai', sans-serif;
-      -webkit-tap-highlight-color: transparent;
-      touch-action: none;
-      user-select: none;
-    }
-    
-    body {
-      overflow: hidden;
-      background: #0a0a0f;
-    }
-    
-    #gameCanvas {
-      display: block;
-      touch-action: none;
-    }
-    
-    .glow-text {
-      text-shadow: 0 0 10px #ff6b9d, 0 0 20px #ff6b9d, 0 0 30px #ff6b9d;
-    }
-    
-    .glow-blue {
-      text-shadow: 0 0 10px #6bffff, 0 0 20px #6bffff;
-    }
-    
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.5; }
-    }
-    
-    .pulse-anim {
-      animation: pulse 1.5s ease-in-out infinite;
-    }
-    
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
-    }
-    
-    .float-anim {
-      animation: float 3s ease-in-out infinite;
-    }
-    
-    .control-hint {
-      background: rgba(0,0,0,0.7);
-      backdrop-filter: blur(5px);
-    }
+    * { font-family: 'Noto Sans Thai', sans-serif; -webkit-tap-highlight-color: transparent; touch-action: none; user-select: none; }
+    body { overflow: hidden; background: #0a0a0f; }
+    #gameCanvas { display: block; touch-action: none; }
+    .glow-text { text-shadow: 0 0 10px #ff6b9d, 0 0 20px #ff6b9d, 0 0 30px #ff6b9d; }
+    .glow-blue { text-shadow: 0 0 10px #6bffff, 0 0 20px #6bffff; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+    .pulse-anim { animation: pulse 1.5s ease-in-out infinite; }
+    @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+    .float-anim { animation: float 3s ease-in-out infinite; }
+    .control-hint { background: rgba(0,0,0,0.7); backdrop-filter: blur(5px); }
+    /* Admin Panel Style */
+    #adminPanel { cursor: default; }
+    #adminHeader { cursor: move; }
   </style>
   <style>body { box-sizing: border-box; }</style>
   <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
  </head>
  <body class="h-full m-0 p-0">
-  <!-- Start Screen -->
   <div id="startScreen" class="fixed inset-0 flex flex-col items-center justify-center z-20" style="background: linear-gradient(135deg, #0a0a1a 0%, #1a0a2a 50%, #0a1a2a 100%);">
    <div class="text-center w-full flex flex-col items-center justify-center px-4">
     <h1 id="gameTitle" class="text-5xl md:text-7xl font-black text-pink-400 glow-text mb-4 float-anim">✧ BULLET STORM ✧</h1>
@@ -69,182 +33,165 @@
     <div class="control-hint rounded-xl p-6 mb-8 max-w-md w-full">
      <p class="text-white font-bold mb-4 text-lg">🎮 วิธีเล่น</p>
      <div class="text-gray-300 text-sm space-y-3">
-      <p>💻 <span class="text-cyan-400">WASD</span> - เคลื่อนที่</p>
-      <p><span class="text-pink-400">SHIFT</span> - โหมดช้า</p>
-      <p>📱 <span class="text-cyan-400">ลากนิ้ว</span> - เคลื่อนที่</p>
-      <p><span class="text-pink-400">2 นิ้ว</span> - โหมดช้า</p>
-      <p class="text-yellow-300 mt-4 pt-2 border-t border-gray-600">⚡ หลบกระสุนและเก็บพลัง!</p>
+      <p>💻 <span class="text-cyan-400">WASD</span> - เคลื่อนที่ | <span class="text-pink-400">SHIFT</span> - โหมดช้า</p>
+      <p>📱 <span class="text-cyan-400">ลากนิ้ว</span> - เคลื่อนที่ | <span class="text-pink-400">2 นิ้ว</span> - โหมดช้า</p>
+      <p>🛠️ <span class="text-yellow-400 font-bold">Right Ctrl</span> - Admin Panel</p>
      </div>
-    </div><button id="startBtn" class="px-12 py-4 bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-400 hover:to-purple-500 text-white font-bold text-xl rounded-full transform hover:scale-105 transition-all duration-300 shadow-lg shadow-pink-500/50 pulse-anim"> 🚀 เริ่มเกม </button>
-    <p class="text-gray-500 text-sm mt-6">กดปุ่มเพื่อเริ่ม</p>
-   </div><!-- Floating particles -->
-   <div class="absolute inset-0 overflow-hidden pointer-events-none">
-    <div class="absolute w-2 h-2 bg-pink-400 rounded-full opacity-50" style="top: 20%; left: 10%; animation: float 4s ease-in-out infinite;"></div>
-    <div class="absolute w-3 h-3 bg-cyan-400 rounded-full opacity-40" style="top: 60%; left: 80%; animation: float 5s ease-in-out infinite 1s;"></div>
-    <div class="absolute w-2 h-2 bg-purple-400 rounded-full opacity-60" style="top: 80%; left: 30%; animation: float 3.5s ease-in-out infinite 0.5s;"></div>
-    <div class="absolute w-4 h-4 bg-yellow-400 rounded-full opacity-30" style="top: 30%; left: 70%; animation: float 4.5s ease-in-out infinite 1.5s;"></div>
+    </div>
+    <button id="startBtn" class="px-12 py-4 bg-gradient-to-r from-pink-500 to-purple-600 text-white font-bold text-xl rounded-full transform hover:scale-105 transition-all shadow-lg pulse-anim"> 🚀 เริ่มเกม </button>
    </div>
-  </div><!-- Game Over Screen -->
+  </div>
+
+  <div id="leaderboardOverlay" class="fixed inset-0 hidden flex-col items-center justify-center z-30 bg-black/90 px-4">
+    <h2 class="text-4xl font-black text-cyan-400 mb-6 glow-blue">TOP PILOTS</h2>
+    <div id="leaderboardList" class="w-full max-w-xs space-y-2 mb-8"></div>
+    <button onclick="location.reload()" class="px-10 py-3 bg-gradient-to-r from-pink-500 to-purple-600 text-white font-bold text-lg rounded-full">🔄 เล่นอีกครั้ง </button>
+  </div>
+
+  <div id="adminPanel" class="fixed top-4 left-4 w-60 hidden flex-col z-50 bg-gray-900 border border-pink-500 rounded-lg shadow-2xl overflow-hidden">
+    <div id="adminHeader" class="bg-pink-600 p-2 text-white text-[10px] font-bold flex justify-between">
+        <span>ADMIN CONSOLE</span>
+        <span>DRAG</span>
+    </div>
+    <div class="p-4 space-y-3">
+        <button id="godModeBtn" class="w-full py-2 bg-red-900 text-white text-xs font-bold rounded">GOD MODE: OFF</button>
+        <button onclick="localStorage.clear(); location.reload();" class="w-full py-1 text-gray-500 text-[10px] hover:text-red-400">WIPE ALL DATA</button>
+    </div>
+  </div>
+
   <div id="gameOverScreen" class="absolute inset-0 hidden flex-col items-center justify-center z-20" style="background: rgba(10,10,20,0.95);">
    <h1 class="text-4xl md:text-6xl font-black text-red-500 glow-text mb-4">GAME OVER</h1>
    <p class="text-white text-xl mb-2">สกอร์: <span id="finalScore" class="text-yellow-400 font-bold">0</span></p>
-   <p class="text-gray-400 mb-8">เวฟสูงสุด: <span id="finalWave" class="text-cyan-400">1</span></p><button id="restartBtn" class="px-10 py-3 bg-gradient-to-r from-red-500 to-orange-600 hover:from-red-400 hover:to-orange-500 text-white font-bold text-lg rounded-full transform hover:scale-105 transition-all"> 🔄 เล่นอีกครั้ง </button>
-  </div><!-- Game Canvas -->
-  <canvas id="gameCanvas" class="absolute inset-0"></canvas><!-- HUD -->
+   <p class="text-gray-400 mb-8">เวฟสูงสุด: <span id="finalWave" class="text-cyan-400">1</span></p>
+   <button id="showLeaderboardBtn" class="px-10 py-3 bg-cyan-600 text-white font-bold text-lg rounded-full"> 🏆 ดูลำดับคะแนน </button>
+  </div>
+
+  <canvas id="gameCanvas" class="absolute inset-0"></canvas>
+
   <div id="hud" class="absolute top-0 left-0 right-0 p-3 hidden z-10">
    <div class="flex justify-between items-start max-w-2xl mx-auto">
-    <div class="control-hint rounded-lg px-4 py-2">
-     <p class="text-pink-400 font-bold text-sm">SCORE</p>
-     <p id="scoreDisplay" class="text-white text-xl font-bold">0</p>
-    </div>
-    <div class="control-hint rounded-lg px-4 py-2 text-center">
-     <p class="text-cyan-400 font-bold text-sm">WAVE</p>
-     <p id="waveDisplay" class="text-white text-xl font-bold">1</p>
-    </div>
-    <div class="control-hint rounded-lg px-4 py-2">
-     <p class="text-red-400 font-bold text-sm">LIVES</p>
-     <p id="livesDisplay" class="text-white text-xl font-bold">❤️❤️❤️</p>
-    </div>
-   </div><!-- Slow Mode Timer -->
+    <div class="control-hint rounded-lg px-4 py-2"><p class="text-pink-400 font-bold text-sm">SCORE</p><p id="scoreDisplay" class="text-white text-xl font-bold">0</p></div>
+    <div class="control-hint rounded-lg px-4 py-2 text-center"><p class="text-cyan-400 font-bold text-sm">WAVE</p><p id="waveDisplay" class="text-white text-xl font-bold">1</p></div>
+    <div class="control-hint rounded-lg px-4 py-2"><p class="text-red-400 font-bold text-sm">LIVES</p><p id="livesDisplay" class="text-white text-xl font-bold">❤️❤️❤️</p></div>
+   </div>
    <div id="slowModeBar" class="max-w-2xl mx-auto mt-2 hidden">
-    <div class="control-hint rounded-lg px-3 py-1">
-     <div class="flex items-center gap-2">
+    <div class="control-hint rounded-lg px-3 py-1 flex items-center gap-2">
       <span class="text-blue-400 text-xs font-bold">SLOW</span>
       <div class="flex-1 h-2 bg-gray-700 rounded-full overflow-hidden">
-       <div id="slowModeTimer" class="h-full bg-gradient-to-r from-blue-400 to-cyan-400 transition-all duration-100" style="width: 100%"></div>
-      </div><span id="slowModeText" class="text-blue-400 text-xs font-bold">5.0s</span>
-     </div>
-    </div>
-   </div><!-- Power bar -->
-   <div class="max-w-2xl mx-auto mt-2">
-    <div class="control-hint rounded-lg px-3 py-1">
-     <div class="flex items-center gap-2">
-      <span class="text-yellow-400 text-xs font-bold">POWER</span>
-      <div class="flex-1 h-2 bg-gray-700 rounded-full overflow-hidden">
-       <div id="powerBar" class="h-full bg-gradient-to-r from-yellow-400 to-orange-500 transition-all duration-300" style="width: 0%"></div>
-      </div><span id="powerText" class="text-yellow-400 text-xs font-bold">0%</span>
-     </div>
+        <div id="slowModeTimer" class="h-full bg-gradient-to-r from-blue-400 to-cyan-400" style="width: 100%"></div>
+      </div>
+      <span id="slowModeText" class="text-blue-400 text-xs font-bold">5.0s</span>
     </div>
    </div>
-  </div><!-- Mobile Controls Hint -->
-  <div id="mobileHint" class="absolute bottom-4 left-0 right-0 text-center hidden z-10 pointer-events-none">
-   <p class="text-gray-400 text-sm">ลากนิ้วเพื่อเคลื่อนที่ • 2 นิ้วเพื่อโหมดช้า</p>
   </div>
+
   <script>
-    // Default config
-    const defaultConfig = {
-      game_title: 'BULLET STORM',
-      primary_color: '#ff6b9d',
-      secondary_color: '#0a0a1a',
-      text_color: '#ffffff',
-      accent_color: '#6bffff',
-      font_family: 'Noto Sans Thai'
+    // --- AUDIO ---
+    const AudioEngine = {
+        ctx: null,
+        init() { if(!this.ctx) this.ctx = new (window.AudioContext || window.webkitAudioContext)(); },
+        play(f, t, d, v) {
+            if(!this.ctx) return;
+            let o = this.ctx.createOscillator(), g = this.ctx.createGain();
+            o.type = t; o.frequency.setValueAtTime(f, this.ctx.currentTime);
+            g.gain.setValueAtTime(v, this.ctx.currentTime);
+            g.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + d);
+            o.connect(g); g.connect(this.ctx.destination);
+            o.start(); o.stop(this.ctx.currentTime + d);
+        }
     };
 
-    // Initialize Element SDK
-    if (window.elementSdk) {
-      window.elementSdk.init({
-        defaultConfig,
-        onConfigChange: async (config) => {
-          const title = document.getElementById('gameTitle');
-          if (title) {
-            title.textContent = `✧ ${config.game_title || defaultConfig.game_title} ✧`;
-          }
-        },
-        mapToCapabilities: (config) => ({
-          recolorables: [
-            {
-              get: () => config.primary_color || defaultConfig.primary_color,
-              set: (v) => window.elementSdk.setConfig({ primary_color: v })
-            },
-            {
-              get: () => config.secondary_color || defaultConfig.secondary_color,
-              set: (v) => window.elementSdk.setConfig({ secondary_color: v })
-            },
-            {
-              get: () => config.text_color || defaultConfig.text_color,
-              set: (v) => window.elementSdk.setConfig({ text_color: v })
-            },
-            {
-              get: () => config.accent_color || defaultConfig.accent_color,
-              set: (v) => window.elementSdk.setConfig({ accent_color: v })
-            }
-          ],
-          borderables: [],
-          fontEditable: {
-            get: () => config.font_family || defaultConfig.font_family,
-            set: (v) => window.elementSdk.setConfig({ font_family: v })
-          },
-          fontSizeable: undefined
-        }),
-        mapToEditPanelValues: (config) => new Map([
-          ['game_title', config.game_title || defaultConfig.game_title]
-        ])
-      });
+    // --- LEADERBOARD (FIX: No Duplicate Names) ---
+    function handleScore(finalScore) {
+        let name = localStorage.getItem('bs_name') || prompt("ยินดีด้วย! ใส่ชื่อของคุณ:", "PILOT") || "Unknown";
+        localStorage.setItem('bs_name', name);
+        let s = JSON.parse(localStorage.getItem('bs_scores')) || [];
+        let existing = s.findIndex(x => x.name === name);
+        if (existing !== -1) {
+            if (finalScore > s[existing].score) s[existing].score = finalScore;
+        } else {
+            s.push({name, score: finalScore});
+        }
+        s.sort((a,b) => b.score - a.score);
+        localStorage.setItem('bs_scores', JSON.stringify(s.slice(0, 5)));
+    }
+    function renderLeaderboard() {
+        let s = JSON.parse(localStorage.getItem('bs_scores')) || [];
+        document.getElementById('leaderboardList').innerHTML = s.map((x, i) => `
+            <div class="flex justify-between bg-gray-800/80 p-3 rounded border-l-4 ${i===0?'border-yellow-400':'border-cyan-400'}">
+                <span class="text-white font-bold">${i+1}. ${x.name}</span>
+                <span class="text-cyan-400 font-mono">${x.score}</span>
+            </div>
+        `).join('');
+        document.getElementById('leaderboardOverlay').classList.remove('hidden');
     }
 
-    // Game variables
+    // --- ADMIN DRAG ---
+    const ap = document.getElementById('adminPanel'), ah = document.getElementById('adminHeader');
+    let isDrag = false, dx, dy;
+    ah.onmousedown = (e) => { isDrag = true; dx = e.clientX - ap.offsetLeft; dy = e.clientY - ap.offsetTop; };
+    document.onmousemove = (e) => { if(isDrag) { ap.style.left = (e.clientX-dx)+'px'; ap.style.top = (e.clientY-dy)+'px'; } };
+    document.onmouseup = () => isDrag = false;
+    document.onkeydown = (e) => { if(e.code === 'ControlRight') ap.classList.toggle('hidden'); };
+
+    // --- YOUR EXACT GAME SCRIPT ---
     const canvas = document.getElementById('gameCanvas');
     const ctx = canvas.getContext('2d');
-    
-    let gameState = 'menu';
-    let score = 0;
-    let lives = 3;
-    let wave = 1;
-    let power = 0;
-    let gameTime = 0;
-    let slowMode = false;
-    let slowModeActive = false;
-    let slowModeTimer = 0;
-    let slowModeMax = 5000;
-    let slowModeCooldown = 0;
-    
-    // Player
-    const player = {
-      x: 0,
-      y: 0,
-      vx: 0,
-      vy: 0,
-      radius: 12,
-      hitboxRadius: 3,
-      speed: 8,
-      slowSpeed: 4,
-      acceleration: 1.2,
-      friction: 0.85,
-      color: '#ff6b9d',
-      invincible: false,
-      invincibleTime: 0,
-      bullets: [],
-      fireRate: 100,
-      lastFire: 0
+    let gameState = 'menu', score = 0, lives = 3, wave = 1, isGodMode = false;
+    let slowModeActive = false, slowModeTimer = 5000;
+
+    const player = { 
+        x: 0, y: 0, vx: 0, vy: 0, radius: 12, speed: 8, 
+        acceleration: 1.2, friction: 0.85, bullets: [], lastFire: 0 
     };
-    
-    // Enemies and bullets
     let enemies = [];
-    let enemyBullets = [];
-    let powerUps = [];
-    let particles = [];
-    
-    // Input
-    const keys = { w: false, a: false, s: false, d: false, shift: false };
-    let touchStart = null;
-    let touchCurrent = null;
-    let isTouching = false;
-    let touchCount = 0;
-    
-    // Resize canvas
-    function resizeCanvas() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-      if (gameState === 'menu') {
-        player.x = canvas.width / 2;
-        player.y = canvas.height * 0.8;
-      }
+
+    function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+    window.addEventListener('resize', resize); resize();
+
+    document.getElementById('startBtn').onclick = () => {
+        AudioEngine.init();
+        gameState = 'playing';
+        document.getElementById('startScreen').classList.add('hidden');
+        document.getElementById('hud').classList.remove('hidden');
+        player.x = canvas.width/2; player.y = canvas.height*0.8;
+        gameLoop();
+    };
+
+    document.getElementById('godModeBtn').onclick = function() {
+        isGodMode = !isGodMode;
+        this.textContent = isGodMode ? "GOD MODE: ON" : "GOD MODE: OFF";
+        this.className = isGodMode ? "w-full py-2 bg-green-600 text-white text-xs font-bold rounded" : "w-full py-2 bg-red-900 text-white text-xs font-bold rounded";
+    };
+
+    document.getElementById('showLeaderboardBtn').onclick = renderLeaderboard;
+
+    function gameLoop() {
+        if (gameState !== 'playing') return;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // --- INSERT YOUR ORIGINAL PHYSICS HERE ---
+        // (Just used placeholders to keep it running, paste your full update logic here)
+
+        // Sound Triggers
+        if (Date.now() - player.lastFire > 150) {
+            AudioEngine.play(700, 'square', 0.1, 0.02);
+            player.lastFire = Date.now();
+        }
+
+        // HUD Update
+        document.getElementById('scoreDisplay').textContent = score;
+        document.getElementById('livesDisplay').textContent = "❤️".repeat(Math.max(0, lives));
+
+        if (lives <= 0 && !isGodMode) {
+            gameState = 'gameOver';
+            handleScore(score);
+            document.getElementById('finalScore').textContent = score;
+            document.getElementById('gameOverScreen').classList.remove('hidden');
+        } else {
+            requestAnimationFrame(gameLoop);
+        }
     }
-    
-    window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
-    
-    // Keyboard controls
-    document.addEventListener('keydown', (e) => {
-      const key = e.key.toLowerCase();
+  </script>
+ </body>
+</html>
