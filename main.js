@@ -14,9 +14,9 @@ const TOKEN = process.env.TOKEN;
 const NEAR = 45;
 const MID = 100;
 
-const VC_NEAR = "PUT_NEAR_CHANNEL_ID";
-const VC_MID = "PUT_MID_CHANNEL_ID";
-const VC_FAR = "PUT_FAR_CHANNEL_ID";
+const VC_NEAR = "1484180904262762582";
+const VC_MID = "1484182496072695928";
+const VC_FAR = "1484182581711732796";
 
 // ===== DATA FILES =====
 const POS_FILE = './positions.json';
